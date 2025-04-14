@@ -9,11 +9,20 @@ interface Research {
   _id: string;
   title: string;
   description: string;
+  image: string;
   technologies: string[];
+  githubUrl: string;
   paperUrl?: string;
-  githubUrl?: string;
-  imageUrl?: string;
-  status: 'ongoing' | 'completed' | 'published';
+  featured: boolean;
+}
+
+interface ResearchFormData {
+  title: string;
+  description: string;
+  technologies: string;
+  githubUrl: string;
+  paperUrl: string;
+  image: string;
 }
 
 async function getResearch(id: string): Promise<Research | null> {
@@ -45,19 +54,19 @@ export default function ResearchDetailPage({ params }: { params: { id: string } 
       try {
         const response = await fetch(`/api/research/${params.id}`);
         if (!response.ok) {
-          throw new Error('Failed to fetch research topic');
+          throw new Error('Failed to fetch research');
         }
         const data = await response.json();
         setResearch(data);
       } catch (error) {
-        console.error('Error fetching research topic:', error);
+        console.error('Error fetching research:', error);
       }
     };
 
     fetchResearch();
   }, [params.id]);
 
-  const handleUpdate = async (formData: any) => {
+  const handleUpdate = async (formData: Omit<ResearchFormData, 'technologies'> & { technologies: string[] }) => {
     setIsSubmitting(true);
     try {
       const response = await fetch(`/api/research/${params.id}`, {
@@ -69,21 +78,21 @@ export default function ResearchDetailPage({ params }: { params: { id: string } 
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update research topic');
+        throw new Error('Failed to update research');
       }
 
-      setResearch(formData);
+      setResearch(formData as Research);
       setIsEditing(false);
     } catch (error) {
-      console.error('Error updating research topic:', error);
-      alert('Failed to update research topic. Please try again.');
+      console.error('Error updating research:', error);
+      alert('Failed to update research. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const handleDelete = async () => {
-    if (!confirm('Are you sure you want to delete this research topic?')) {
+    if (!confirm('Are you sure you want to delete this research?')) {
       return;
     }
 
@@ -94,13 +103,13 @@ export default function ResearchDetailPage({ params }: { params: { id: string } 
       });
 
       if (!response.ok) {
-        throw new Error('Failed to delete research topic');
+        throw new Error('Failed to delete research');
       }
 
       router.push('/research');
     } catch (error) {
-      console.error('Error deleting research topic:', error);
-      alert('Failed to delete research topic. Please try again.');
+      console.error('Error deleting research:', error);
+      alert('Failed to delete research. Please try again.');
     } finally {
       setIsDeleting(false);
     }
@@ -139,10 +148,10 @@ export default function ResearchDetailPage({ params }: { params: { id: string } 
         />
       ) : (
         <div className="space-y-6">
-          {research.imageUrl && (
+          {research.image && (
             <div className="relative w-full h-64 rounded-lg overflow-hidden">
               <Image
-                src={research.imageUrl}
+                src={research.image}
                 alt={research.title}
                 fill
                 className="object-cover"
@@ -171,16 +180,6 @@ export default function ResearchDetailPage({ params }: { params: { id: string } 
           )}
 
           <div className="flex flex-wrap gap-4">
-            {research.paperUrl && (
-              <Link
-                href={research.paperUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-              >
-                View Paper
-              </Link>
-            )}
             {research.githubUrl && (
               <Link
                 href={research.githubUrl}
@@ -191,13 +190,17 @@ export default function ResearchDetailPage({ params }: { params: { id: string } 
                 View on GitHub
               </Link>
             )}
+            {research.paperUrl && (
+              <Link
+                href={research.paperUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+              >
+                View Paper
+              </Link>
+            )}
           </div>
-
-          {research.status && (
-            <div className="text-sm text-gray-500 dark:text-gray-400">
-              Status: {research.status}
-            </div>
-          )}
         </div>
       )}
     </div>
@@ -209,31 +212,30 @@ function ResearchForm({
   isSubmitting,
   initialData,
 }: {
-  onSubmit: (data: any) => void;
+  onSubmit: (data: Omit<ResearchFormData, 'technologies'> & { technologies: string[] }) => void;
   isSubmitting: boolean;
-  initialData?: any;
+  initialData?: Research;
 }) {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ResearchFormData>({
     title: initialData?.title || '',
     description: initialData?.description || '',
     technologies: initialData?.technologies?.join(', ') || '',
-    status: initialData?.status || 'In Progress',
-    paperUrl: initialData?.paperUrl || '',
     githubUrl: initialData?.githubUrl || '',
-    imageUrl: initialData?.imageUrl || '',
+    paperUrl: initialData?.paperUrl || '',
+    image: initialData?.image || '',
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const researchData = {
       ...formData,
-      technologies: formData.technologies.split(',').map((tech) => tech.trim()),
+      technologies: formData.technologies.split(',').map((tech: string) => tech.trim()),
     };
     onSubmit(researchData);
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -296,22 +298,19 @@ function ResearchForm({
 
       <div>
         <label
-          htmlFor="status"
+          htmlFor="githubUrl"
           className="block text-sm font-medium text-gray-700 dark:text-gray-300"
         >
-          Status
+          GitHub URL
         </label>
-        <select
-          id="status"
-          name="status"
-          value={formData.status}
+        <input
+          type="url"
+          id="githubUrl"
+          name="githubUrl"
+          value={formData.githubUrl}
           onChange={handleChange}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-        >
-          <option value="In Progress">In Progress</option>
-          <option value="Completed">Completed</option>
-          <option value="On Hold">On Hold</option>
-        </select>
+        />
       </div>
 
       <div>
@@ -333,33 +332,16 @@ function ResearchForm({
 
       <div>
         <label
-          htmlFor="githubUrl"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-        >
-          GitHub URL
-        </label>
-        <input
-          type="url"
-          id="githubUrl"
-          name="githubUrl"
-          value={formData.githubUrl}
-          onChange={handleChange}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-        />
-      </div>
-
-      <div>
-        <label
-          htmlFor="imageUrl"
+          htmlFor="image"
           className="block text-sm font-medium text-gray-700 dark:text-gray-300"
         >
           Image URL
         </label>
         <input
           type="url"
-          id="imageUrl"
-          name="imageUrl"
-          value={formData.imageUrl}
+          id="image"
+          name="image"
+          value={formData.image}
           onChange={handleChange}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
         />
@@ -371,7 +353,7 @@ function ResearchForm({
           disabled={isSubmitting}
           className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
         >
-          {isSubmitting ? 'Updating...' : 'Update Research Topic'}
+          {isSubmitting ? 'Updating...' : 'Update Research'}
         </button>
       </div>
     </form>

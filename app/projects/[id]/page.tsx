@@ -16,6 +16,15 @@ interface Project {
   featured: boolean;
 }
 
+interface ProjectFormData {
+  title: string;
+  description: string;
+  technologies: string;
+  githubUrl: string;
+  liveUrl: string;
+  image: string;
+}
+
 export default function ProjectDetailPage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const [project, setProject] = useState<Project | null>(null);
@@ -186,11 +195,11 @@ function ProjectForm({
   isSubmitting,
   initialData,
 }: {
-  onSubmit: (data: any) => void;
+  onSubmit: (data: Omit<ProjectFormData, 'technologies'> & { technologies: string[] }) => void;
   isSubmitting: boolean;
-  initialData?: any;
+  initialData?: Project;
 }) {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ProjectFormData>({
     title: initialData?.title || '',
     description: initialData?.description || '',
     technologies: initialData?.technologies?.join(', ') || '',
