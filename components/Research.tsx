@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { ResearchCard } from './ResearchCard';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 interface Research {
   _id: string;
@@ -11,8 +12,8 @@ interface Research {
   technologies: string[];
   paperUrl?: string;
   githubUrl?: string;
-  imageUrl?: string;
-  status: 'ongoing' | 'completed' | 'published';
+  image?: string;
+  featured: boolean;
 }
 
 export function Research() {
