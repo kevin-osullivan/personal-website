@@ -11,8 +11,8 @@ interface Research {
   technologies: string[];
   paperUrl?: string;
   githubUrl?: string;
-  imageUrl?: string;
-  status: 'ongoing' | 'completed' | 'published';
+  image?: string;
+  featured: boolean;
 }
 
 interface ResearchCardProps {
@@ -30,7 +30,7 @@ export function ResearchCard({ research }: ResearchCardProps) {
       >
         <div className="relative h-48">
           <Image
-            src={research.imageUrl || '/placeholder.jpg'}
+            src={research.image || '/window.svg'}
             alt={research.title}
             fill
             className="object-cover"
@@ -39,13 +39,6 @@ export function ResearchCard({ research }: ResearchCardProps) {
         <div className="p-6">
           <div className="flex justify-between items-start mb-2">
             <h3 className="text-xl font-bold">{research.title}</h3>
-            <span className={`px-2 py-1 rounded text-sm ${
-              research.status === 'published' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
-              research.status === 'ongoing' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' :
-              'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'
-            }`}>
-              {research.status}
-            </span>
           </div>
           <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-2">
             {research.description}

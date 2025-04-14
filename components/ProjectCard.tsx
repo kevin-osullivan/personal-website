@@ -30,7 +30,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       >
         <div className="relative h-48">
           <Image
-            src={project.imageUrl || '/placeholder.jpg'}
+            src={project.imageUrl || '/window.svg'}
             alt={project.title}
             fill
             className="object-cover"

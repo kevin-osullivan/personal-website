@@ -71,7 +71,7 @@ export default function HomePage() {
             </p>
             <div className="flex justify-center md:justify-start gap-4">
               <a
-                href="https://www.linkedin.com/in/kevin-o-sullivan-software-engineer/"
+                href="https://www.linkedin.com/in/kevosull"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
@@ -90,7 +90,7 @@ export default function HomePage() {
                 </svg>
               </a>
               <a
-                href="https://github.com/kevinosullivan"
+                href="https://github.com/kevin-osullivan"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
@@ -109,7 +109,7 @@ export default function HomePage() {
                 </svg>
               </a>
               <a
-                href="mailto:kevinosullivan@berkeley.edu"
+                href="mailto:osullkev@gmail.com"
                 className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
               >
                 <svg
