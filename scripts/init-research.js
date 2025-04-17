@@ -24,7 +24,7 @@ async function main() {
         status: "ongoing",
         paperUrl: "https://example.com/paper1",
         githubUrl: "https://github.com/example/research1",
-        imageUrl: "/research1.jpg",
+        image: "/research1.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -35,7 +35,7 @@ async function main() {
         status: "published",
         paperUrl: "https://example.com/paper2",
         githubUrl: "https://github.com/example/research2",
-        imageUrl: "/research2.jpg",
+        image: "/research2.jpg",
         createdAt: new Date(),
         updatedAt: new Date()
       }

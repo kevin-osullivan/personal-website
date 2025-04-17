@@ -1,19 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ProjectCard } from './ProjectCard';
+import { ProjectCard, Project } from './ProjectCard';
 import Link from 'next/link';
-
-interface Project {
-  _id: string;
-  title: string;
-  description: string;
-  technologies: string[];
-  githubUrl?: string;
-  liveUrl?: string;
-  imageUrl?: string;
-  isResearch?: boolean;
-}
 
 export function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);

@@ -13,7 +13,6 @@ interface Project {
   technologies: string[];
   githubUrl: string;
   liveUrl?: string;
-  featured: boolean;
 }
 
 interface ProjectFormData {
@@ -131,16 +130,17 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
         />
       ) : (
         <div className="space-y-6">
-          {project.image && (
-            <div className="relative w-full h-64 rounded-lg overflow-hidden">
+          <div className="relative w-full h-96 mb-8">
+            <div className="relative w-full h-full bg-white">
               <Image
-                src={project.image}
+                src={project.image || '/window.svg'}
                 alt={project.title}
                 fill
+                sizes="100vw"
                 className="object-cover"
               />
             </div>
-          )}
+          </div>
 
           <div className="prose dark:prose-invert max-w-none">
             <p className="text-lg">{project.description}</p>

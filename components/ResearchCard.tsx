@@ -12,7 +12,7 @@ interface Research {
   paperUrl?: string;
   githubUrl?: string;
   image?: string;
-  featured: boolean;
+  featured?: boolean;
 }
 
 interface ResearchCardProps {
@@ -28,12 +28,18 @@ export function ResearchCard({ research }: ResearchCardProps) {
         viewport={{ once: true }}
         className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
       >
-        <div className="relative h-48">
+        <div className="relative h-48 bg-white">
           <Image
             src={research.image || '/window.svg'}
             alt={research.title}
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover"
+            priority={research.featured}
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = '/window.svg';
+            }}
           />
         </div>
         <div className="p-6">

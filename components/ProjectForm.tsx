@@ -14,7 +14,7 @@ export default function ProjectForm({ onSubmit, isSubmitting }: ProjectFormProps
     technologies: '',
     githubUrl: '',
     liveUrl: '',
-    imageUrl: '',
+    image: '',
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -124,16 +124,16 @@ export default function ProjectForm({ onSubmit, isSubmitting }: ProjectFormProps
 
       <div>
         <label
-          htmlFor="imageUrl"
+          htmlFor="image"
           className="block text-sm font-medium text-gray-700 dark:text-gray-300"
         >
           Image URL
         </label>
         <input
           type="url"
-          id="imageUrl"
-          name="imageUrl"
-          value={formData.imageUrl}
+          id="image"
+          name="image"
+          value={formData.image}
           onChange={handleChange}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
         />

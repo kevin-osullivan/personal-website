@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 
-interface Project {
+export interface Project {
   _id: string;
   title: string;
   description: string;
@@ -12,7 +12,11 @@ interface Project {
   githubUrl?: string;
   liveUrl?: string;
   imageUrl?: string;
+  type: 'project' | 'research';
+  paperUrl?: string;
+  image?: string;
   isResearch?: boolean;
+  featured: boolean;
 }
 
 interface ProjectCardProps {
@@ -28,12 +32,18 @@ export function ProjectCard({ project }: ProjectCardProps) {
         viewport={{ once: true }}
         className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
       >
-        <div className="relative h-48">
+        <div className="relative h-48 bg-white">
           <Image
-            src={project.imageUrl || '/window.svg'}
+            src={project.image || '/window.svg'}
             alt={project.title}
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover"
+            priority={project.featured}
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = '/window.svg';
+            }}
           />
         </div>
         <div className="p-6">

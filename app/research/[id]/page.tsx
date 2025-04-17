@@ -148,16 +148,17 @@ export default function ResearchDetailPage({ params }: { params: { id: string } 
         />
       ) : (
         <div className="space-y-6">
-          {research.image && (
-            <div className="relative w-full h-64 rounded-lg overflow-hidden">
+          <div className="relative w-full h-96 mb-8">
+            <div className="relative w-full h-full bg-white">
               <Image
-                src={research.image}
+                src={research.image || '/window.svg'}
                 alt={research.title}
                 fill
+                sizes="100vw"
                 className="object-cover"
               />
             </div>
-          )}
+          </div>
 
           <div className="prose dark:prose-invert max-w-none">
             <p className="text-lg">{research.description}</p>
@@ -165,7 +166,7 @@ export default function ResearchDetailPage({ params }: { params: { id: string } 
 
           {research.technologies && research.technologies.length > 0 && (
             <div>
-              <h2 className="text-xl font-semibold mb-2">Technologies</h2>
+              <h2 className="text-xl font-semibold mb-2">Keywords</h2>
               <div className="flex flex-wrap gap-2">
                 {research.technologies.map((tech: string, index: number) => (
                   <span

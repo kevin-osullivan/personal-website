@@ -31,7 +31,7 @@ export default function HomePage() {
         const sortedProjects = projectsData
           .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime())
           .slice(0, 3);
-        
+
         const sortedResearch = researchData
           .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime())
           .slice(0, 3);
@@ -58,6 +58,7 @@ export default function HomePage() {
               src="/profile.jpg"
               alt="Profile Picture"
               fill
+              sizes="(max-width: 768px) 100vw, 192px"
               className="object-cover"
               priority
             />
@@ -66,8 +67,17 @@ export default function HomePage() {
             <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
               Kevin O'Sullivan
             </h1>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+              Software Engineer and Doctoral Researcher
+            </h1>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mb-6">
-              I'm a software engineer and researcher passionate about building innovative solutions and exploring new technologies. My work focuses on creating impactful applications while contributing to the advancement of computer science through research.
+              I'm a software engineer and doctoral researcher at the Bits to Energy Lab, ETH Zurich.
+              My research focuses on how digital technologies and digitalization of the retail space can support food-related interventions that promote health, reduce food waste, and lower carbon emissions.
+
+
+              <br /> Before my PhD, I earned a Master's in Biomedical Engineering from Trinity College Dublin, with a focus on computer science and engineering. 
+              <br /> I have professional experience in full-stack software engineering in the FinTech and EdTech sectors. I now draw on this background to design and build new tools and methods for researching food behaviors.
+
             </p>
             <div className="flex justify-center md:justify-start gap-4">
               <a
@@ -131,8 +141,60 @@ export default function HomePage() {
           </div>
         </div>
 
+        {/* Navigation Links */}
+        <div className="flex justify-center gap-8 mb-16">
+          <Link
+            href="/projects"
+            className="group relative px-8 py-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transition-all"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div className="relative flex items-center gap-3">
+              <span className="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-white transition-colors">
+                Projects
+              </span>
+              <svg
+                className="w-6 h-6 text-gray-900 dark:text-white group-hover:text-white transition-colors"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </div>
+          </Link>
+          <Link
+            href="/research"
+            className="group relative px-8 py-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transition-all"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div className="relative flex items-center gap-3">
+              <span className="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-white transition-colors">
+                Research
+              </span>
+              <svg
+                className="w-6 h-6 text-gray-900 dark:text-white group-hover:text-white transition-colors"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </div>
+          </Link>
+        </div>
+
         {/* Projects and Research Section */}
-        <div className="mb-16">
+        {/* <div className="mb-16">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
               Latest in Projects and Research
@@ -168,7 +230,7 @@ export default function HomePage() {
                 ))}
             </div>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );
